@@ -1,0 +1,12 @@
+channels:
+  - conda-forge
+dependencies:
+  - pandas
+  - dvc
+  - gitpython
+  - pip
+  - pip:
+    - hydra-core
+    - gto
+    - doit
+
