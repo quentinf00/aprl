@@ -1,0 +1,25 @@
+# @package dvc_run
+
+dvc_options: []
+run_options: ???
+deps: ???
+outs: ???
+params: ???
+cmd: ???
+
+entrypoint:
+  _target_: subprocess.run
+  shell: true
+  _args_: 
+    - _target_: shlex.join
+      split_command:
+        _target_: itertools.chain
+        _args_:
+          - [dvc]
+          - ${dvc_run.dvc_options}
+          - [run]
+          - ${dvc_run.run_options}
+          - ${dvc_run.deps}
+          - ${dvc_run.outs}
+          - ${dvc_run.params}
+          - ${dvc_run.cmd}

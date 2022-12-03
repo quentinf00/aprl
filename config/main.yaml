@@ -1,0 +1,19 @@
+entrypoints: ???
+
+hydra:
+  callbacks:
+    versioning_cb:
+      _target_: common.versioning_utils.VersioningCallback
+      commit_fn:
+        _target_: common.versioning_utils.commit_cwd
+        branch: job_log
+        _partial_: true
+      msg_fn:
+        _target_: omegaconf.OmegaConf.select
+        _partial_: true
+        key: hydra.runtime.output_dir
+
+
+
+  searchpath:
+    - pkg://xps

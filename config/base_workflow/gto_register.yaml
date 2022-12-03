@@ -1,0 +1,17 @@
+# @package gto_register
+name: ???
+ref: ???
+options: []
+
+entrypoint:
+  _target_: subprocess.run
+  args: 
+    _target_: shlex.join
+    split_command: 
+      _target_: itertools.chain
+      _args_:
+        - [gto, register]
+        - ${gto_register.options}
+        - ['${gto_register.name}', '${gto_register.ref}']
+  shell: true
+       

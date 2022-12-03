@@ -1,0 +1,10 @@
+entrypoints:
+- _target_: builtins.print
+  _args_:
+  - output dir ${hydra:runtime.output_dir}
+- _target_: xps.tuto.repeat
+  path_in: data/my_dep.csv
+  path_out: ${hydra:runtime.output_dir}/outs/out.csv
+  times: ${params.my_param}
+params:
+  my_param: 5

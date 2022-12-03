@@ -1,0 +1,17 @@
+# @package dvc_ci
+
+options: []
+target: ???
+
+entrypoint:
+  _target_: subprocess.run
+  shell: true
+  _args_: 
+    - _target_: shlex.join
+      split_command:
+        _target_: itertools.chain
+        _args_:
+          - [dvc, commit]
+          - ${dvc_ci.options}
+          - ${dvc_ci.target}
+

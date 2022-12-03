@@ -1,0 +1,12 @@
+# @package git_ci
+
+entrypoint:
+  _target_: common.versioning_utils.commit_cwd
+  branch: ???
+  message: ???
+  repo: null
+  cwds: null
+  ignore_cwds: null
+  working_tree_dir: null
+  additional_parent_commits: null
+  start_index: HEAD

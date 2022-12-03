@@ -1,0 +1,8 @@
+stages:
+  tuto:
+    cmd: xps/tuto/sota/.hydra/config.yaml:params.my_param "python main.py -cd=.hydra
+      -cn=config"
+    deps:
+    - data/my_dep.csv
+    outs:
+    - xps/tuto/sota/outs/out.csv

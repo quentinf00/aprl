@@ -1,0 +1,53 @@
+# @package _global_
+
+log_dir: ???
+xp_dir: ???
+name: ???
+
+import_log_dir:
+  - {_target_: builtins.print, _args_: ['Moving ${log_dir} ${xp_dir}']}
+  - {_target_: shutil.rmtree, path: '${xp_dir}', ignore_errors: true}
+  - {_target_: shutil.copytree, src: '${log_dir}', dst: '${xp_dir}'}
+
+dvc_run:
+  dvc_options: []
+  run_options: [-v, -n, '${name}', --force, --no-exec]
+  deps: [-d, data/my_dep.csv]
+  outs: [-o, '${xp_dir}/outs/out.csv']
+  params: ['${xp_dir}/.hydra/config.yaml:params.my_param']
+  cmd: ["python main.py -cd=.hydra -cn=config"]
+
+dvc_ci:
+  options: [-v, -f]
+  target: ['dvc.yaml']
+
+git_log_grep:
+  _target_: common.versioning_utils.git_log_grep
+  repo: {_target_: git.repo.Repo, path: '.'}
+  branch: job_log
+  grep: ${log_dir}
+
+git_ci:
+  entrypoint:
+    branch: gto_log
+    message: '${name}: ${log_dir} -> ${xp_dir}'
+    cwds: ${xp_dir}
+    start_index: ${git_log_grep}
+
+gto_register:
+  name: ${name}
+  ref: ${git_ci.entrypoint}
+  options: []
+
+defaults:
+  - /base_workflow/dvc_run
+  - /base_workflow/dvc_ci
+  - /base_workflow/git_ci
+  - /base_workflow/gto_register
+  - _self_
+
+entrypoints:
+  - ${import_log_dir}
+  - ${dvc_run.entrypoint}
+  - ${dvc_ci.entrypoint}
+  - ${gto_register.entrypoint}
