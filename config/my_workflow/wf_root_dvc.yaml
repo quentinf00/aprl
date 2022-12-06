@@ -14,8 +14,8 @@ dvc_run:
   run_options: [-v, -n, '${name}', --force, --no-exec]
   deps: [-d, data/my_dep.csv]
   outs: [-o, '${xp_dir}/outs/out.csv']
-  params: ['${xp_dir}/.hydra/config.yaml:params.my_param']
-  cmd: ["python main.py -cd=.hydra -cn=config"]
+  params: ['-p', '${xp_dir}/.hydra/config.yaml:params.my_param']
+  cmd: ["python main.py -cd=${xp_dir}/.hydra -cn=config hydra.run.dir=${xp_dir}"]
 
 dvc_ci:
   options: [-v, -f]

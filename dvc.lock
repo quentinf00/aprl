@@ -1,12 +1,14 @@
 schema: '2.0'
 stages:
   tuto:
-    cmd: xps/tuto/sota/.hydra/config.yaml:params.my_param "python main.py -cd=.hydra
-      -cn=config"
+    cmd: python main.py -cd=xps/tuto/sota/.hydra -cn=config hydra.run.dir=xps/tuto/sota
     deps:
     - path: data/my_dep.csv
       md5: c8263e8422925b0872ee1fb7c953742a
       size: 6
+    params:
+      xps/tuto/sota/.hydra/config.yaml:
+        params.my_param: 5
     outs:
     - path: xps/tuto/sota/outs/out.csv
       md5: b869309b6883222504383bf0d983c833
